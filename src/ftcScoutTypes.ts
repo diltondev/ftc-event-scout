@@ -1448,7 +1448,9 @@ export type SubscriptionNewMatchesArgs = {
     code: Scalars["String"]
 }
 
-export type OprsAtEventQueryVariables = Exact<{ [key: string]: never }>
+export type OprsAtEventQueryVariables = Exact<{
+    code: Scalars["String"]
+}>
 
 export type OprsAtEventQuery = { __typename?: "Query" } & {
     eventByCode?: Maybe<
@@ -1458,16 +1460,30 @@ export type OprsAtEventQuery = { __typename?: "Query" } & {
                     TeamEventParticipation,
                     "teamNumber"
                 > & {
-                    team: { __typename?: "Team" } & {
+                    team: { __typename?: "Team" } & Pick<Team, "name"> & {
                         quickStats?: Maybe<
                             { __typename?: "QuickStats" } & {
                                 tot: { __typename?: "QuickStat" } & Pick<QuickStat, "value">
-                                auto: { __typename?: "QuickStat" } & Pick<QuickStat, "value">
+                                auto: { __typename?: "QuickStat" } & Pick<
+                                    QuickStat,
+                                    "value"
+                                >
                             }
                         >
                     }
                 }
             >
         }
+    >
+}
+
+export type GetAllEventsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllEventsQuery = { __typename?: "Query" } & {
+    eventsSearch: Array<
+        { __typename?: "Event" } & Pick<
+            Event,
+            "code" | "regionCode" | "name" | "start"
+        >
     >
 }
